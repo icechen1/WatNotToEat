@@ -6,6 +6,5 @@ angular.module('restaurants').run(['Menus',
 		// Set top bar menu items
 		Menus.addMenuItem('topbar', 'Restaurants', 'restaurants', 'dropdown', '/restaurants(/create)?');
 		Menus.addSubMenuItem('topbar', 'restaurants', 'List Restaurants', 'restaurants');
-		Menus.addSubMenuItem('topbar', 'restaurants', 'New Restaurant', 'restaurants/create');
 	}
 ]);

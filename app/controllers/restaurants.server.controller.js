@@ -5,26 +5,10 @@
  */
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
-	Restaurant = mongoose.model('Restaurant'),
+	Restaurant = mongoose.model('facilities'),
+    Infraction = mongoose.model('infractions'),
+    Inspection = mongoose.model('inspections'),
 	_ = require('lodash');
-
-/**
- * Create a Restaurant
- */
-exports.create = function(req, res) {
-	var restaurant = new Restaurant(req.body);
-	restaurant.user = req.user;
-
-	restaurant.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(restaurant);
-		}
-	});
-};
 
 /**
  * Show the current Restaurant
@@ -53,27 +37,11 @@ exports.update = function(req, res) {
 };
 
 /**
- * Delete an Restaurant
- */
-exports.delete = function(req, res) {
-	var restaurant = req.restaurant ;
-
-	restaurant.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(restaurant);
-		}
-	});
-};
-
-/**
  * List of Restaurants
+ * .populate('ADDR', 'CITY')
  */
 exports.list = function(req, res) { 
-	Restaurant.find().sort('-created').populate('user', 'displayName').exec(function(err, restaurants) {
+	Restaurant.find().sort('BUSINESS_NAME').exec(function(err, restaurants) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -86,9 +54,10 @@ exports.list = function(req, res) {
 
 /**
  * Restaurant middleware
+ * .populate('ADDR', 'CITY')
  */
 exports.restaurantByID = function(req, res, next, id) { 
-	Restaurant.findById(id).populate('user', 'displayName').exec(function(err, restaurant) {
+	Restaurant.findById(id).exec(function(err, restaurant) {
 		if (err) return next(err);
 		if (! restaurant) return next(new Error('Failed to load Restaurant ' + id));
 		req.restaurant = restaurant ;

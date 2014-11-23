@@ -6,11 +6,11 @@
         <a data-ng-repeat="restaurant in restaurants" data-ng-href="#!/restaurants/{{restaurant._id}}" class="list-group-item">
 			<small class="list-group-item-text">
 				Posted on
-				<span data-ng-bind="restaurant.created | date:'medium'"></span>
+				<span data-ng-bind="restaurant.BUSINESS_NAME | date:'medium'"></span>
 				by
 				<span data-ng-bind="restaurant.user.displayName"></span>
 			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="restaurant.name"></h4>
+			<h4 class="list-group-item-heading" data-ng-bind="restaurant.BUSINESS_NAME"></h4>
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!restaurants.$resolved || restaurants.length">

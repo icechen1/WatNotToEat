@@ -10,20 +10,14 @@ var mongoose = require('mongoose'),
  * Restaurant Schema
  */
 var RestaurantSchema = new Schema({
-	name: {
-		type: String,
-		default: '',
-		required: 'Please fill Restaurant name',
-		trim: true
-	},
-	created: {
-		type: Date,
-		default: Date.now
-	},
-	user: {
-		type: Schema.ObjectId,
-		ref: 'User'
-	}
+    FACILITYID : String,
+    BUSINESS_NAME : String,
+    TELEPHONE : String,
+    ADDR : String,
+    CITY : String,
+    EATSMART : String,
+    OPEN_DATE : String,
+    DESCRIPTION : String
 });
 
-mongoose.model('Restaurant', RestaurantSchema);
+mongoose.model('facilities', RestaurantSchema);
