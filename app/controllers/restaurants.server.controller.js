@@ -8,8 +8,8 @@ var mongoose = require('mongoose'),
 	Restaurant = mongoose.model('facilities'),
     Infraction = mongoose.model('infractions'),
     Inspection = mongoose.model('inspections'),
-	_ = require('lodash');
-
+	_ = require('lodash'),
+    async = require('async');
 /**
  * Show the current Restaurant
  */
@@ -51,7 +51,16 @@ exports.list = function(req, res) {
 		}
 	});
 };
-
+exports.findInfractions = function(inspection,callback) {
+    console.log('Finding: ' + inspection.INSPECTION_ID);
+    //find infractions
+    Infraction.find({INSPECTION_ID:inspection.INSPECTION_ID}).exec(function(err, infraction) {
+    if (err) return callback(err,null);
+    if (! infraction) return callback(new Error('Failed to load infraction ' + id),null);
+        console.log('Found: ' + infraction);
+        callback(null,infraction);
+    });
+}
 /**
  * Restaurant middleware
  * .populate('ADDR', 'CITY')
@@ -61,7 +70,23 @@ exports.restaurantByID = function(req, res, next, id) {
 		if (err) return next(err);
 		if (! restaurant) return next(new Error('Failed to load Restaurant ' + id));
 		req.restaurant = restaurant ;
-		next();
+        //console.log(restaurant);
+        //find inspections
+        Inspection.find({FACILITYID:restaurant.FACILITYID}).exec(function(err, inspection) {
+        if (err) return next(err);
+        if (! inspection) return next(new Error('Failed to load Inspection ' + id));
+            req.restaurant.inspection = inspection;
+            async.map(inspection, exports.findInfractions, function (err, result) {
+              if(!err) {
+                console.log('Finished: ' + result);
+                next();
+              } else {
+                console.log('Error: ' + err);
+                next(err);
+              }
+
+            });
+        });
 	});
 };
 
