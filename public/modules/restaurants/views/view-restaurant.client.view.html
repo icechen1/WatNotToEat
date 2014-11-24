@@ -2,15 +2,19 @@
     <section class="container">
         <section data-ng-controller="RestaurantsController" data-ng-init="findOne()">
             <div class="page-header">
-                <h1 data-ng-bind="restaurant.name"></h1>
+                <h1 data-ng-bind="restaurant.BUSINESS_NAME"></h1>
             </div>
-            <div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == restaurant.user._id))">
-                <a class="btn btn-primary" href="/#!/restaurants/{{restaurant._id}}/edit">
-                    <i class="glyphicon glyphicon-edit"></i>
-                </a>
-                <a class="btn btn-primary" data-ng-click="remove();">
-                    <i class="glyphicon glyphicon-trash"></i>
-                </a>
+            <p>{{restaurant.DESCRIPTION}}</p>
+            <p>{{restaurant.ADDR}}</p>
+            <p>{{restaurant.CITY}}</p>
+            <p>{{restaurant.TELEPHONE}}</p>
+            <p>{{restaurant.OPEN_DATE}}</p>
+
+            <div ng-repeat="inspection in restaurant.inspection">
+                Inspection {{$index}}
+                <div ng-repeat="infraction in inspection.infraction">
+                    - Infraction {{$index}}
+                </div>
             </div>
             <small>
                 <em class="text-muted">

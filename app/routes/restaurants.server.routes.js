@@ -9,6 +9,8 @@ module.exports = function(app) {
 
 	app.route('/restaurants/:restaurantId')
 		.get(restaurants.read);
+	app.route('/restaurants/search/:val')
+		.get(restaurants.search);
 
 	// Finish by binding the Restaurant middleware
 	app.param('restaurantId', restaurants.restaurantByID);
