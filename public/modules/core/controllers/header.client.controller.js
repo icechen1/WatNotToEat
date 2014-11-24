@@ -15,14 +15,10 @@ angular.module('core').controller('HeaderController', ['$scope','$http', 'Menus'
 		});
         // Any function returning a promise object can be used to load values asynchronously
         $scope.searchRestaurants = function(val) {
-        return $http.get('/', {
-          params: {
-            val: val
-          }
-        }).then(function(response){
-          return response.data.results.map(function(item){
-            return item.BUSINESS_NAME;
-          });
+        var url = '/restaurants/search/' + val;
+        return $http.get(url).then(function(response){
+            console.log(response);
+            return response;
         });
         };
 	}

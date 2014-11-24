@@ -56,17 +56,27 @@ exports.list = function(req, res) {
  * Find Restaurants By Name
  */
 exports.search = function(req, res) {
-	Restaurant.find({BUSINESS_NAME:req.val}).limit(10).sort('BUSINESS_NAME').exec(function(err, restaurants) {
+	res.jsonp(req.results);
+};
+
+/**
+ * Restaurant middleware
+ * .populate('ADDR', 'CITY')
+ */
+exports.findByName = function(req, res, next, val) {
+    console.log('Search for '+ val);
+	Restaurant.find({BUSINESS_NAME:new RegExp(val, 'i')}).limit(10).select('BUSINESS_NAME _id').sort('BUSINESS_NAME').exec(function(err, restaurants) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(restaurants);
+			req.results = (restaurants);
+            console.log('Results '+ restaurants);
+            next();
 		}
 	});
 };
-
 
 exports.findInfractions = function(inspection,callback) {
     var Id = inspection.INSPECTION_ID.toString();

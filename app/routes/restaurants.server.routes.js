@@ -14,4 +14,6 @@ module.exports = function(app) {
 
 	// Finish by binding the Restaurant middleware
 	app.param('restaurantId', restaurants.restaurantByID);
+
+    app.param('val', restaurants.findByName);
 };

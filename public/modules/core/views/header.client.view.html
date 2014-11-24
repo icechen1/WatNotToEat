@@ -10,10 +10,10 @@
 	</div>
 	<nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
 		<ul class="nav navbar-nav">
-                <input type="text" placeholder="Search for restaurants" typeahead="BUSINESS_NAME for address in getLocation($viewValue)" typeahead-loading="loadingLocations" class="form-control">
-    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 
 			<li data-ng-repeat="item in menu.items | orderBy: 'position'" ng-switch="item.menuItemType" ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute)}" dropdown="item.menuItemType === 'dropdown'">
+                                <input type="text" ng-model="search" placeholder="Search for restaurants" typeahead="restaurant.BUSINESS_NAME for restaurant in searchRestaurants($viewValue)" typeahead-loading="loadingLocations" class="form-inline form-control">
+    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 				<a ng-switch-when="dropdown" class="dropdown-toggle">
 					<span data-ng-bind="item.title"></span>
 					<b class="caret"></b>
