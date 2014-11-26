@@ -3,15 +3,24 @@
         <section data-ng-controller="RestaurantsController" data-ng-init="findOne()">
             <div class="page-header">
                 <h1 data-ng-bind="restaurant.BUSINESS_NAME"></h1>
+                <h4>Food inspection data sheet</h4>
             </div>
-            <p>{{restaurant.DESCRIPTION}}</p>
-            <address>
-              <strong>{{restaurant.ADDR}}</strong><br>
-              {{restaurant.CITY}}<br>
-              <abbr title="Phone">P:</abbr> {{restaurant.TELEPHONE}} <br>
-              <abbr title="Open on">Open:</abbr> {{restaurant.OPEN_DATE}}
-            </address>
-
+            <section class="row">
+                <div class="col-md-8">
+                    <!--Info about the facility -->
+                    <p>{{restaurant.DESCRIPTION}}</p>
+                    <address>
+                      <strong>{{restaurant.ADDR}}</strong><br>
+                      {{restaurant.CITY}}<br>
+                      <abbr title="Phone">P:</abbr> {{restaurant.TELEPHONE}} <br>
+                      <abbr title="Open on">Open:</abbr> {{restaurant.OPEN_DATE}}
+                    </address>
+                </div>
+                <div class="col-md-4">
+                    <ui-gmap-google-map ng-show="false" center='map.center' zoom='map.zoom' class="map-container">
+                    </ui-gmap-google-map>
+                </div>
+            </section>
             <h3>Inspection results</h3>
             <div ng-repeat="inspection in restaurant.inspection | orderBy:predicate:reverse">
                 <h4 class="alert alert-info">{{inspection.INSPECTION_TYPE}} {{$index+1}} on {{inspection.INSPECTION_DATE}}</h4>
@@ -26,6 +35,14 @@
                       <th>Description</th>
                     </tr>
                   </thead>
+
+                <tr ng-show="inspection.infraction.length == 0">
+                  <td>1</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td>No infractions</td>
+                </tr>
 
                 <tr ng-repeat="infraction in inspection.infraction" ng-class="{'danger': infraction.INFRACTION_TYPE=='CRITICAL'}">
                   <td>{{$index+1}}</td>

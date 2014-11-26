@@ -14,5 +14,6 @@ angular.module('restaurants').controller('RestaurantsController', ['$scope', '$s
 				restaurantId: $stateParams.restaurantId
 			});
 		};
+        $scope.map = { center: { latitude: 43.4500, longitude: -80.4833 }, zoom: 12,showKml: true };
 	}
 ]);
