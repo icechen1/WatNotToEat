@@ -13,7 +13,8 @@
             <div ng-repeat="inspection in restaurant.inspection">
                 Inspection {{$index}}
                 <div ng-repeat="infraction in inspection.infraction">
-                    - Infraction {{$index}}
+                    - Infraction {{$index}} <br />
+                    {{infraction}}
                 </div>
             </div>
             <small>

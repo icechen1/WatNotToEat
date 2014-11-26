@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('core').controller('HeaderController', ['$scope','$http', 'Menus',
-	function($scope,$http, Menus) {
+angular.module('core').controller('HeaderController', ['$scope','$http','$location', 'Menus',
+	function($scope,$http,$location, Menus) {
 		$scope.isCollapsed = false;
 		$scope.menu = Menus.getMenu('topbar');
 
@@ -17,9 +17,12 @@ angular.module('core').controller('HeaderController', ['$scope','$http', 'Menus'
         $scope.searchRestaurants = function(val) {
         var url = '/restaurants/search/' + val;
         return $http.get(url).then(function(response){
-            console.log(response);
-            return response;
+            return response.data;
         });
         };
+
+        $scope.goToDetailsPage = function (item, model, label){
+            $location.path('/restaurants/'+item._id);
+        }
 	}
 ]);
